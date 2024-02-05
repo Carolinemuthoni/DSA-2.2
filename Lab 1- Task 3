@@ -1,0 +1,134 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class course {
+public:
+    string course_code;
+    string course_name;
+};
+
+class grade {
+public:
+    int mark;
+    char the_grade;
+};
+
+class student {
+public:
+    string registration_number;
+    string name;
+    int age;
+    course course;
+    grade grades;
+    bool overallGrade;
+
+    void add_student() {
+        cout << "Enter registration number: ";
+        cin >> registration_number;
+        cout << "Enter name: ";
+        cin >> name;
+        cout << "Enter age: ";
+        cin >> age;
+        cout << "Enter course code: ";
+        cin >> course.course_code;
+        cout << "Enter course name: ";
+        cin >> course.course_name;
+        overallGrade = false;
+    }
+
+    void edit_student() {
+        cout << "Enter new name: ";
+        cin >> name;
+        cout << "Enter new age: ";
+        cin >> age;
+        cout << "Enter new course code: ";
+        cin >> course.course_code;
+        cout << "Enter new course name: ";
+        cin >> course.course_name;
+        overallGrade = false;
+        cout << "Student details updated successfully.\n";
+    }
+
+    void add_marks() {
+        cout << "Enter mark: ";
+        cin >> grades.mark;
+        if (grades.mark > 69) {
+            grades.the_grade = 'A';
+        } else if (grades.mark > 59) {
+            grades.the_grade = 'B';
+        } else if (grades.mark > 49) {
+            grades.the_grade = 'C';
+        } else if (grades.mark > 39) {
+            grades.the_grade = 'D';
+        } else {
+            grades.the_grade = 'E';
+        }
+        overallGrade = true;
+        cout << "Marks added successfully.\n";
+    }
+};
+
+int main() {
+    student students[40];
+    int num_students = 0;
+    int option;
+    do {
+        cout << "1. Add student\n";
+        cout << "2. Edit student details\n";
+        cout << "3. Add marks and calculate grades\n";
+        cout << "4. Exit\n";
+        cout << "Enter your option: ";
+        cin >> option;
+        switch (option) {
+            case 1:
+                if (num_students < 40) {
+                    students[num_students++].add_student();
+                } else {
+                    cout << "Maximum number of students reached.\n";
+                }
+                break;
+            case 2:
+                if (num_students > 0) {
+                    string registration_number;
+                    cout << "Enter registration number of student to edit: ";
+                    cin >> registration_number;
+                    for (int i = 0; i < num_students; i++) {
+                        if (students[i].registration_number == registration_number) {
+                            students[i].edit_student();
+                            break;
+                        }
+                    }
+                } else {
+                    cout << "No students added yet.\n";
+                }
+                break;
+            case 3:
+                if (num_students > 0) {
+                    string registration_number;
+                    cout << "Enter registration number of student to add marks: ";
+                    cin >> registration_number;
+                    for (int i = 0; i < num_students; i++) {
+                        if (students[i].registration_number == registration_number) {
+                            if (students[i].overallGrade) {
+                                cout << "Grades already calculated for this student.\n";
+                            } else {
+                                students[i].add_marks();
+                            }
+                            break;
+                        }
+                    }
+                } else {
+                    cout << "No students added yet.\n";
+                }
+                break;
+            case 4:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid option. Try again.\n";
+                break;
+        }
+    } while (option != 4);
+    return 0;
+}
