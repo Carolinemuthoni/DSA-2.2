@@ -1,0 +1,31 @@
+#include <stdbool.h>
+#include <stdio.h>
+
+bool containsDuplicate(int* nums, int numsSize) {
+    if (numsSize <= 1) {
+        return false;
+    }
+
+    for (int i = 0; i < numsSize; i++) {
+        for (int j = i + 1; j < numsSize; j++) {
+            if (nums[i] == nums[j]) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+int main() {
+    int nums[] = {3, 2, 3, 1};
+    int numsSize = sizeof(nums) / sizeof(nums[0]);
+
+    if (containsDuplicate(nums, numsSize)) {
+        printf("The array contains duplicates.\n");
+    } else {
+        printf("The array does not contain duplicates.\n");
+    }
+
+    return 0;
+}
