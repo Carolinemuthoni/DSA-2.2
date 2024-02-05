@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Function to find the single element that appears once and the other elements twice
+int getSingleElement(int* nums, int size) {
+    int count[256] = {0};
+    int result = 0;
+
+    for (int i = 0; i < size; i++) {
+        int num = nums[i];
+        count[num]++;
+    }
+
+    for (int i = 0; i < size; i++) {
+        if (count[nums[i]] == 1) {
+            return nums[i];
+        }
+    }
+
+    return -1;
+}
+
+int main() {
+    int nums[] = {2, 2, 1,3,3};
+    int size = sizeof(nums) / sizeof(nums[0]);
+    int result = getSingleElement(nums, size);
+    printf("The single element is: %d\n", result);
+    return 0;
+}
