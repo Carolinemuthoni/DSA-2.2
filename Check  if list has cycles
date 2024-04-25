@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+bool detectLoop(struct Node* h) {
+    struct Node* slow = h;
+    struct Node* fast = h;
+
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;       // Move slow pointer by one step
+        fast = fast->next->next; // Move fast pointer by two steps
+
+        // If they meet, there is a loop
+        if (slow == fast) {
+            return true;
+        }
+    }
+
+    return false; // No loop
+}
+
+// TO TEST
+int main() {
+    struct Node* head = NULL;
+
+    // Example usage
+    struct Node* node1 = createNode(3);
+    struct Node* node2 = createNode(2);
+    struct Node* node3 = createNode(0);
+    struct Node* node4 = createNode(-4);
+
+    // Constructing cycle: tail connects to node index 1
+    node1->next = node2;
+    node2->next = node3;
+    node3->next = node4;
+    node4->next = node2; //connecting last node to the second node
+
+
+
+    // Call detectLoop function and print the result
+    if (detectLoop(node1)) {
+        printf("True\n");
+    } else {
+        printf("False\n");
+    }
+
+    // Free dynamically allocated memory
+    free(node1);
+    free(node2);
+    free(node3);
+    free(node4);
+
+    return 0;
+}
